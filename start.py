@@ -1,24 +1,9 @@
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
 plt.style.use('dark_background')
 
-# Determine the names of all the files in the directory 'Spotify Extended Streaming History' which start with 'Streaming_History_Audio'
-filenames = os.listdir('Spotify Extended Streaming History')
-filenames = [filename for filename in filenames if filename.startswith('Streaming_History_Audio')]
-
-# Read the jsons
-all_data = []
-for filename in filenames:
-    all_data.append(pd.read_json('Spotify Extended Streaming History/' + filename))
-
-df = pd.concat(all_data, ignore_index=True).drop(['username', 'ip_addr_decrypted', 'user_agent_decrypted', 'platform', 'conn_country', 'spotify_track_uri', 'episode_name', 'episode_show_name', 'spotify_episode_uri'], axis=1) # might do things with columns like conn_country later, but for now just drop them
-# might want to drop podcasts
-
-# print(df.head())
-print(f'Number of tracks: {df.shape[0]}')
-# print(df.columns)
-print(f'Most recent track: {df["ts"].max()}')
+# Read the csv
+df = pd.read_csv('all_data.csv')
 
 def ms_played_to_hours(df):
     df['hours_played'] = df['ms_played'] / 1000 / 60 / 60
