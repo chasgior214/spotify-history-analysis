@@ -16,7 +16,7 @@ def combine_data():
         print(f"Combining file {count} of {len(filenames)}")
         all_data.append(pd.read_json('Spotify Extended Streaming History/' + filename))
 
-    df = pd.concat(all_data, ignore_index=True).drop(['username', 'ip_addr_decrypted', 'user_agent_decrypted', 'platform', 'conn_country', 'spotify_track_uri', 'episode_name', 'episode_show_name', 'spotify_episode_uri'], axis=1) # might do things with columns like conn_country later, but for now just drop them
+    df = pd.concat(all_data, ignore_index=True).drop(['username', 'ip_addr_decrypted', 'user_agent_decrypted', 'platform', 'conn_country', 'spotify_track_uri', 'episode_name', 'episode_show_name', 'spotify_episode_uri','offline_timestamp','offline','incognito_mode', 'shuffle','reason_start','reason_end','skipped'], axis=1) # might do things with columns like conn_country later, but for now just drop them
     print("Data combined")
     # might want to drop podcasts
 
@@ -30,3 +30,6 @@ def combine_data():
     print("Saving data")
     df.to_csv('all_data.csv', index=False)
     print("Data saved to all_data.csv")
+
+if __name__ == '__main__':
+    combine_data()
