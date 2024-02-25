@@ -47,7 +47,7 @@ plot_fns.plot_time_series(df_artist_month, 'month', 'hours_played', title=f'Time
 
 # Time with specific track
 track_name = "Sk8er Boi"
-artist_name = "Avril Lavigne" # if listened to multiple artists with the same track name
+artist_name = 0 # if listened to multiple artists with the same track name
 df_track = filter_fns.filter_by_track_string(df, track_name, artist_name)
 
 # Time by month

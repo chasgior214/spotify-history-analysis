@@ -15,8 +15,11 @@ def get_artist_uri(artist_name):
     else:
         return None
 
-def get_track_uris(track_name, artist_name):
-    results = sp.search(q='track:' + track_name + ' artist:' + artist_name, type='track')
+def get_track_uris(track_name, artist_name=None):
+    if artist_name:
+        results = sp.search(q='track:' + track_name + ' artist:' + artist_name, type='track')
+    else:
+        results = sp.search(q='track:' + track_name, type='track')
     items = results['tracks']['items']
     if len(items) > 0:
         tracks = [item['uri'] for item in items]
@@ -27,3 +30,8 @@ def get_track_uris(track_name, artist_name):
 def get_track_length_s(track_uri):
     track = sp.track(track_uri)
     return track['duration_ms']/1000
+
+if __name__ == '__main__':
+    # print(get_artist_uri('Avril Lavigne'))
+    print(get_track_uris('Complicated'))
+    # print(get_track_length_s('spotify:track:5xEM5hIgJ1jjgcEBfpkt2F'))
