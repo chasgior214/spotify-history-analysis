@@ -10,6 +10,8 @@ df = pd.read_csv('all_data.csv')
 # filter out songs played for less than 20 seconds
 df = filter_fns.filter_by_minimum_secs_played(df, 20)
 
+# df = filter_fns.filter_non_spotify_tracks(df)
+
 # Time by artist
 df_artists = df.groupby('master_metadata_album_artist_name')['hours_played'].sum().reset_index()
 df_artists = df_artists.sort_values('hours_played', ascending=False)
@@ -19,12 +21,35 @@ print(df_artists.head())
 plot_fns.plot_top_n(df_artists, 10, 'master_metadata_album_artist_name', 'hours_played', x_label='Artist', y_label='Hours Played')
 
 # Time by track
-df_tracks = df.groupby('master_metadata_track_name')['hours_played'].sum().reset_index()
-df_tracks = df_tracks.sort_values('hours_played', ascending=False)
+
+# custom df so that it ignores live versions, etc
+# take out the following from the track name:
+"""
+radio edit
+live
+acoustic
+acoustic version
+anniversary edition
+year remaster
+remaster year
+remaster
+year remastered
+remastered year
+remastered
+single version
+live in...
+live at...
+live from...
+"""
+# better way to do it: take current filter, and then if the artist has a track that starts with the same name as another one of their tracks, merge the hours_played_sums
+df_tracks = df
+
+df_tracks = df_tracks.groupby(['master_metadata_track_name', 'master_metadata_album_artist_name']).agg(hours_played_sum=('hours_played', 'sum')).reset_index()
+df_tracks = df_tracks.sort_values('hours_played_sum', ascending=False)
 print('\nMost listened to tracks:')
 print(df_tracks.head())
-
-plot_fns.plot_top_n(df_tracks, 10, 'master_metadata_track_name', 'hours_played', x_label='Track', y_label='Hours Played')
+df_tracks['track_artist'] = df_tracks['master_metadata_track_name'] + '\n' + df_tracks['master_metadata_album_artist_name']
+plot_fns.plot_top_n(df_tracks, 10, 'track_artist', 'hours_played_sum', x_label='Track and Artist', y_label='Hours Played', title='Top 10 Tracks')
 
 # Specific year time by artist
 year = 2020

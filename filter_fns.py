@@ -18,6 +18,12 @@ def filter_by_track_uri(df, track_uri):
     - df: the dataframe to filter
     - track_uri: the track uri to filter by as a string (e.g. 'spotify:track:00Mb3DuaIH1kjrwOku9CGU')"""
     return df[df['master_metadata_track_uri'] == track_uri]
+def filter_non_spotify_tracks(df):
+    """Filter the dataframe to only include rows where the master_metadata_track_uri column does not start with 'spotify:track:'.
+    
+    Args:
+    - df: the dataframe to filter"""
+    return df[~df['spotify_track_uri'].str.startswith('spotify:track:')]
 
 # artist filters
 def filter_by_artist_string(df, artist):
