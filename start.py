@@ -40,6 +40,7 @@ single version
 live in...
 live at...
 live from...
+Taylor's Version
 """
 # better way to do it: take current filter, and then if the artist has a track that starts with the same name as another one of their tracks, merge the hours_played_sums
 df_tracks = df
@@ -52,7 +53,7 @@ df_tracks['track_artist'] = df_tracks['master_metadata_track_name'] + '\n' + df_
 plot_fns.plot_top_n(df_tracks, 10, 'track_artist', 'hours_played_sum', x_label='Track and Artist', y_label='Hours Played', title='Top 10 Tracks')
 
 # Specific year time by artist
-year = 2020
+year = 2023
 df_year = filter_fns.filter_to_year(df, year)
 
 df_artist_year = df_year.groupby('master_metadata_album_artist_name')['hours_played'].sum().reset_index()
@@ -62,7 +63,7 @@ n = 10
 plot_fns.plot_top_n(df_artist_year, n, 'master_metadata_album_artist_name', 'hours_played', title=f'Top {n} Artists in {year}')
 
 # Time listening to specific artist each month over entire dataset
-artist_name = 'Avril Lavigne'
+artist_name = 'Taylor Swift'
 df_artist = filter_fns.filter_by_artist_string(df, artist_name)
 
 df_artist['month'] = df_artist['ts'].str[0:7]
@@ -71,7 +72,7 @@ df_artist_month = df_artist.groupby('month')['hours_played'].sum().reset_index()
 plot_fns.plot_time_series(df_artist_month, 'month', 'hours_played', title=f'Time Spent Listening to {artist_name} Each Month', rotate_x_labels=True)
 
 # Time with specific track
-track_name = "Sk8er Boi"
+track_name = "Levels"
 artist_name = 0 # if listened to multiple artists with the same track name
 df_track = filter_fns.filter_by_track_string(df, track_name, artist_name)
 

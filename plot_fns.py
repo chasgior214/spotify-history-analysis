@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 plt.style.use('dark_background')
 
-def plot_top_n(df, n, x_col, y_col, x_label=None, y_label=None, title=None):
+def plot_top_n(df, n, x_col, y_col, x_label=None, y_label=None, title=None, rotate_x_labels=False):
     """Plot the top n items in a dataframe as a bar chart.
     
     Args:
@@ -22,6 +22,9 @@ def plot_top_n(df, n, x_col, y_col, x_label=None, y_label=None, title=None):
 
     if not x_label:
         x_label = x_col.replace('_', ' ').title()
+    
+    if rotate_x_labels:
+        plt.xticks(rotation=90)
 
     if title:
         plt.title(title)

@@ -3,3 +3,4 @@ all_data.csv
 credentials.txt
 .cache
 __pycache__/
+myvenv/
