@@ -1,0 +1,3 @@
+add sample data
+use sklearn in some way
+make it not all in start, have it let the user pick things to do
